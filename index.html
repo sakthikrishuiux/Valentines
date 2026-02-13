@@ -7,12 +7,14 @@
 <style>
     body {
         height: 100vh;
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #ff9a9e, #fad0c4);
         overflow: hidden;
+        transition: 0.5s;
     }
 
     .card {
@@ -22,7 +24,7 @@
         text-align: center;
         box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         animation: bounceIn 1s ease;
-        z-index: 2;
+        position: relative;
     }
 
     @keyframes bounceIn {
@@ -35,13 +37,19 @@
         margin-bottom: 30px;
     }
 
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+    }
+
     button {
         padding: 12px 28px;
         font-size: 18px;
         border: none;
         border-radius: 30px;
         cursor: pointer;
-        margin: 10px;
         transition: 0.3s;
     }
 
@@ -64,7 +72,7 @@
     #noBtn {
         background-color: #adb5bd;
         color: white;
-        position: absolute;
+        position: relative;
     }
 
     /* Floating emojis */
@@ -79,6 +87,45 @@
         0% { transform: translateY(0); opacity: 1; }
         100% { transform: translateY(-600px); opacity: 0; }
     }
+
+    /* Celebration Page */
+    .love-container {
+        text-align: center;
+        color: white;
+        animation: fadeIn 1s ease;
+    }
+
+    .love-title {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    .photo-gallery {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .photo-gallery img {
+        width: 220px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease;
+    }
+
+    .photo-gallery img:hover {
+        transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
 </style>
 </head>
 
@@ -86,15 +133,25 @@
 
 <div class="card">
     <h1>Will you be my Valentine? 💕🥹</h1>
-    <button id="yesBtn" onclick="yesClicked()">Yes 💖</button>
-    <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+
+    <div class="btn-group">
+        <button id="yesBtn" onclick="yesClicked()">Yes 💖</button>
+        <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+    </div>
 </div>
 
 <script>
+
     function moveNo() {
         const noBtn = document.getElementById("noBtn");
-        const x = Math.random() * (window.innerWidth - 120);
-        const y = Math.random() * (window.innerHeight - 60);
+
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.position = "fixed";   // Switch to fixed when moving
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
     }
@@ -111,26 +168,38 @@
     }, 500);
 
     function yesClicked() {
+
         document.body.innerHTML = `
-            <h1 style="color:white; font-size:40px; text-align:center;">
-                Yayyy!!! 💕🥰🎉<br>
-                Happy Valentine’s Day 💖
-            </h1>`;
+            <div class="love-container">
+                <h1 class="love-title">
+                    💕🥰🎉<br>
+                    Happy Valentine’s Day My Love 💖 Nidhu 🥰
+                </h1>
+
+                <div class="photo-gallery">
+                    <img src="https://source.unsplash.com/400x500/?couple,love" alt="Love 1">
+                    <img src="https://source.unsplash.com/400x500/?romantic,couple" alt="Love 2">
+                    <img src="https://source.unsplash.com/400x500/?valentine,rose" alt="Love 3">
+                </div>
+            </div>
+        `;
+
+        document.body.style.background = "linear-gradient(135deg, #ff758c, #ff7eb3)";
         document.body.style.display = "flex";
         document.body.style.justifyContent = "center";
         document.body.style.alignItems = "center";
 
-        // Emoji celebration
         setInterval(() => {
             const emoji = document.createElement("div");
             emoji.className = "emoji";
-            emoji.innerHTML = "🎉💖";
+            emoji.innerHTML = "💖";
             emoji.style.left = Math.random() * window.innerWidth + "px";
             emoji.style.bottom = "0px";
             document.body.appendChild(emoji);
             setTimeout(() => emoji.remove(), 4000);
         }, 300);
     }
+
 </script>
 
 </body>
